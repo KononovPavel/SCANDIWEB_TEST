@@ -16,6 +16,7 @@ export type productType = {
     inStock: any,
     brand: any,
     id: any,
+    count : 1
 }
 
 
@@ -53,7 +54,6 @@ export const ProductListReducer = (state: initStateType = initState, action: act
             return {...state, currentProducts: currentProducts}
         }
         case "SET_PRODUCTS_ALL": {
-
             return {...state, products: action.payload}
         }
 

@@ -21,7 +21,6 @@ ReactDOM.render(
             </BrowserRouter>
         </Provider>
     </ApolloProvider>
-
     ,
     document.getElementById('root')
 );
