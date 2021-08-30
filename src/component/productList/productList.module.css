@@ -1,0 +1,33 @@
+.productListContainer{
+    margin-top: 80px;
+    margin-bottom: 100px;
+    width: 100%;
+    min-height: 100%;
+}
+.categoryName{
+    font-weight: normal;
+    font-size: 42px;
+    font-family: 'Raleway', serif;
+    line-height: 160%;
+}
+.products{
+
+}
+.productWrapper{
+    display: flex;
+    align-items: flex-start;
+    /*justify-content: space-between;*/
+    flex-wrap: wrap;
+    margin-left: -36px;
+    margin-right: -36px;
+}
+.card{
+    padding: 0 20px;
+    width: 33.33%;
+    box-sizing: border-box;
+    margin-bottom: 103px;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: flex-start;*/
+    /*justify-content: space-between;*/
+}

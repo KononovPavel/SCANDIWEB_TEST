@@ -1,0 +1,102 @@
+.link {
+    text-decoration: none;
+    font-family: 'Raleway', serif;
+    font-style: normal;
+    /*color:#5ECE7B ;*/
+    line-height: 120%;
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: uppercase;
+    display: flex;
+    height: 80px;
+    border-bottom: 3px solid transparent;
+}
+
+.links {
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.span {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.header {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 80px;
+    z-index: 99;
+    background: white;
+}
+
+.headerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.activeLink {
+    font-weight: 900;
+    border-bottom: 3px solid #5ECE7B ;
+    color: #5ECE7B
+}
+
+.cartImage {
+    position: relative;
+}
+
+.cart{
+    cursor: pointer;
+}
+.cartBlock{
+    display: flex;
+    align-items: center;
+}
+
+.cartOverlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 80px;
+    height: calc(100vh - 80px);
+    width: 100vw;
+    background-color: rgba(57, 55, 72, 0.22);
+}
+.cartPopup{
+    position: absolute;
+    top: 50px;
+    right: 10%;
+    width: 325px;
+    max-height: 100vh;
+    overflow: auto;
+    background: white;
+    min-height: 300px;
+}
+.CART_MODAL{
+    display: none;
+}
+{/*flex-shrink : 0 то элементы сжиматься не будут --flex-grow: элементы будут растягиваться*/}
+.CART_NEW{
+    position: relative;
+}
+.CART_NEW::after{
+    content:'';
+    display:block;
+    position: absolute;
+    width: 300px;
+    height: 50px;
+    right: 0;
+    top:100%;
+}
+.CART_NEW:hover .CART_MODAL{
+    display: block;
+}
+
+
