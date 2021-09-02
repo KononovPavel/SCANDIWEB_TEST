@@ -4,11 +4,13 @@ import {Dispatch} from "redux";
 const SET_PRODUCTS_ALL = 'SET_PRODUCTS_ALL'
 const SET_CURRENT_PRODUCTS = 'SET_CURRENT_PRODUCTS'
 const SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT'
+const SET_CURRENT_BIG_IMAGE = 'SET_CURRENT_BIG_IMAGE'
+const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART'
 
 
 export type productType = {
     prices: any,
-    name:string
+    name: string
     category: any,
     description: any,
     gallery: any,
@@ -16,14 +18,17 @@ export type productType = {
     inStock: any,
     brand: any,
     id: any,
-    count : 1
+    count: number,
+    currentCurrency:any
 }
 
 
 let initState = {
     products: [] as productType[],
     currentProducts: [] as productType[],
-    currentProduct: {} as productType | undefined
+    currentProduct: {} as productType | undefined,
+    cartItems: [] as productType[],
+    currentBigImage: '' as string,
 }
 type setProductsALL = {
     type: typeof SET_PRODUCTS_ALL,
@@ -38,25 +43,45 @@ type setCurrentProduct = {
     type: typeof SET_CURRENT_PRODUCT,
     payload: string
 }
+type setCurrentBigImage = {
+    type: typeof SET_CURRENT_BIG_IMAGE,
+    payload: string
+}
+type addProductToCart = {
+    type: typeof ADD_PRODUCT_TO_CART,
+    payload: productType
+}
 
 type initStateType = typeof initState
-type actionType = setCurrentProduct | setCurrentProducts | setProductsALL
+type actionType = setCurrentProduct | setCurrentProducts | setProductsALL | setCurrentBigImage | addProductToCart
 
 export const ProductListReducer = (state: initStateType = initState, action: actionType): initStateType => {
     switch (action.type) {
         case "SET_CURRENT_PRODUCT": {
             let copyState = {...state}
-            return {...state, currentProduct:copyState.currentProducts.find((product)=> product.id === action.payload)}
+            return {
+                ...state,
+                currentProduct: {
+                    ...copyState.currentProducts.find((product) => product.id === action.payload),
+                    count: 1
+                } as productType
+            }
         }
         case "SET_CURRENT_PRODUCTS": {
             let copyState = {...state}
             let currentProducts = copyState.products.filter(product => product.category === action.payload)
+
             return {...state, currentProducts: currentProducts}
         }
         case "SET_PRODUCTS_ALL": {
             return {...state, products: action.payload}
         }
-
+        case "SET_CURRENT_BIG_IMAGE": {
+            return {...state, currentBigImage: action.payload}
+        }
+        case "ADD_PRODUCT_TO_CART":{
+            return {...state,cartItems:[...state.cartItems, action.payload] }
+        }
         default: {
             return state
         }
@@ -66,19 +91,27 @@ export const ProductListReducer = (state: initStateType = initState, action: act
 //AC
 
 const setProductsALL = (state: productType[]): setProductsALL => ({type: SET_PRODUCTS_ALL, payload: state})
-const setCurrentProducts = (categoryNAME: string): setCurrentProducts => ({type: SET_CURRENT_PRODUCTS, payload: categoryNAME})
+const setCurrentProducts = (categoryNAME: string): setCurrentProducts => ({
+    type: SET_CURRENT_PRODUCTS,
+    payload: categoryNAME
+})
 const setCurrentProduct = (productID: string): setCurrentProduct => ({type: SET_CURRENT_PRODUCT, payload: productID})
-
-
+const setCurrentImage = (image: string): setCurrentBigImage => ({type: SET_CURRENT_BIG_IMAGE, payload: image})
+const addProductToCart = (product:productType):addProductToCart=>({type:ADD_PRODUCT_TO_CART, payload:product})
 //TC
-export const getCurrentProducts = (categoryNAME: string) => (dispatch:Dispatch)=>{
-
+export const getCurrentProducts = (categoryNAME: string) => (dispatch: Dispatch) => {
     dispatch(setCurrentProducts(categoryNAME))
 }
 
 export const getAllProducts = (state: productType[]) => (dispatch: Dispatch) => {
     dispatch(setProductsALL(state))
 }
-export const getCurrentProduct = (productID: string)=>(dispatch:Dispatch)=>{
+export const getCurrentProduct = (productID: string) => (dispatch: Dispatch) => {
     dispatch(setCurrentProduct(productID))
+}
+export const getCurrentImage = (image: string) => (dispatch: Dispatch) => {
+    dispatch(setCurrentImage(image))
+}
+export const addProductToCartTC = (product:productType)=>(dispatch:Dispatch)=>{
+    dispatch(addProductToCart(product))
 }

@@ -63,7 +63,7 @@ class ProductsList extends React.Component<AllType, any> {
                                     onClick={()=>this.changeCurrentProduct(product.id)}
                                     className={styles.card}
                                     key={product.id}
-                                    style={{opacity: product.inStock? 0.5:1}}
+                                    style={{opacity: !product.inStock? 0.5:1}}
                                 >
                                   <ProductItem
                                       imageURL={product.gallery[0]}

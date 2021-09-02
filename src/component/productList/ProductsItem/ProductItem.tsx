@@ -13,18 +13,18 @@ class ProductItem extends React.Component<PropsType> {
 
     render() {
         return (
+            <NavLink style={{textDecoration:'none', color:'black'}} to={`/${this.props.currentCategory}/${this.props.id}`}>
                 <div className={styles.wrapper}>
                     <div className={styles.imgWrapper}>
-                        <NavLink style={{textDecoration:'none'}} to={`/${this.props.currentCategory}/${this.props.id}`}>
                         <img className={styles.img} src={this.props.imageURL} alt=""/>
-                        </NavLink>
-                        <span className={styles.stock}>{this.props.inStock?"OUT OF STOCK":''}</span>
+                        <span className={styles.stock}>{!this.props.inStock?"OUT OF STOCK":''}</span>
                     </div>
                     <div className={styles.text}>
                         <div className={styles.name}>{this.props.name}</div>
                         <div className={styles.price}>{this.props.price}</div>
                     </div>
                 </div>
+            </NavLink>
 
         );
     }

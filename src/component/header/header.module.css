@@ -10,6 +10,7 @@
     display: flex;
     height: 80px;
     border-bottom: 3px solid transparent;
+    color:#1D1F22;
 }
 
 .links {
@@ -54,10 +55,12 @@
 
 .cart{
     cursor: pointer;
+    padding-bottom: 5px;
 }
 .cartBlock{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .cartOverlay {
@@ -78,6 +81,7 @@
     overflow: auto;
     background: white;
     min-height: 300px;
+    padding: 8px 16px;
 }
 .CART_MODAL{
     display: none;
@@ -90,7 +94,7 @@
     content:'';
     display:block;
     position: absolute;
-    width: 300px;
+    width: 50px;
     height: 50px;
     right: 0;
     top:100%;

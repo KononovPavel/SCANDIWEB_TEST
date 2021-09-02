@@ -1,0 +1,51 @@
+.oneProductContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.wrapper{
+    width: 90%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.productPhoto{
+    text-align: center;
+    margin-bottom: 33px;
+    cursor: pointer;
+    background: white;
+}
+.productPhoto:hover{
+    box-shadow: 0 4px 16px rgba(168, 172, 176, 0.2);
+}
+.name{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 27px;
+    margin-bottom: 43px;
+}
+.brand{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 27px;
+    font-variant-alternates: normal;
+    margin-bottom: 16px;
+}
+.addToCartButton{
+    width:292px;
+    height: 52px;
+    padding: 16px 32px;
+    text-transform: uppercase;
+    background: #5ECE7B;
+    color:white;
+    border: none;
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 120%;
+}

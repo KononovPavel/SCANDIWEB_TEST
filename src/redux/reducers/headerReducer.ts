@@ -5,8 +5,6 @@ let headerInitState = {
     currencies: [] as any,
     currentCurrency: '',
     currentCategory: '',
-    openCart: false,
-    modalCart: false,
     select: false,
 }
 type headerInitStateType = typeof headerInitState
