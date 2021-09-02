@@ -26,13 +26,13 @@ class Item extends Component<PropsType> {
                     </div>
                     <div className={styles.settings_Photo}>
                         <div className={styles.counter}>
-                            <div>
+                            <div className={styles.change}>
                                 +
                             </div>
-                            <div>
-                                count
+                            <div className={styles.count}>
+                                1
                             </div>
-                            <div>
+                            <div className={styles.change}>
                                 -
                             </div>
                         </div>

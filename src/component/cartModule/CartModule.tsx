@@ -17,16 +17,18 @@ class CartModule extends React.Component<PropsType & any> {
             <React.Fragment>
                 {
                     this.props.cartItems && this.props.cartItems.length
-                        ? <div>
+                        ? <div style={{width:'100%'}}>
                             <h3 className={styles.count}><b>My Bag,</b> {this.props.cartItems.length} items</h3>
                             <>
                             {
                                 this.props.cartItems.map((item:productType)=><Item key={item.id} item={item}/>)
                             }</>
+                            <span className={styles.total}>Total {this.props.cartItems.reduce((acc:number,el:any)=>acc + el.prices[0].amount,0)} </span>
                         <div className={styles.buttons}>
                             <button className={styles.buttonView}>view bag</button>
                             <button className={styles.buttonCheckOut}>check out</button>
                         </div>
+
                         </div>
                         : <div className={styles.emptyBag} style={{width:'100%', height:'300px', display:'flex', alignItems:'center', justifyContent:'center'}}>
                             My bag is empty

@@ -41,4 +41,14 @@
     line-height: 120%;
     border: none;
 }
-
+.total{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 160%;
+    margin-bottom: 37px;
+}

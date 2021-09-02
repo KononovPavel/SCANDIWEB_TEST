@@ -48,4 +48,78 @@
     font-weight: 600;
     font-size: 16px;
     line-height: 120%;
+    margin-bottom:40px ;
+    cursor: pointer;
+}
+.CurrentPhoto{
+    margin-right: 100px;
+    margin-bottom: 72px;
+}
+.description{
+    text-align: justify;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 159.96%;
+}
+.price{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 18px;
+    margin-bottom: 20px;
+}
+.priceText{
+    margin-top: 40px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-family: 'Roboto Condensed',sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 18px;
+}
+.name{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 18px;
+    padding: 0;
+    margin: 43px 0 8px;
+}
+.attributes{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.item{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
+    padding: 13px 22px;
+    border: 1px solid #A6A6A6;
+    text-align: center;
+    margin-right: 12px;
+}
+.itemColor{
+    padding: 20px 30px;
+    border:1px solid;
+    text-align: center;
+    margin-right: 12px;
+}
+.itemColor:hover{
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(168, 172, 176, 0.2);
+}
+.item:hover{
+    background: #000000;
+    color: white;
+    cursor: pointer;
 }

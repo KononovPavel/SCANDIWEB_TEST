@@ -9,7 +9,7 @@ type PropsType = {
     currentProduct: productType,
     currentBigImage: string,
     getCurrentImage: (image: string) => void
-    addProductToCartTC:(product:productType)=>void
+    addProductToCartTC: (product: productType) => void
 }
 
 
@@ -31,8 +31,9 @@ class OneProduct extends React.Component<PropsType> {
     onChangeCurrentBigImage(value: string) {
         this.props.getCurrentImage(value)
     }
-    addProductAtCart(product:productType){
-      this.props.addProductToCartTC(product)
+
+    addProductAtCart(product: productType) {
+        this.props.addProductToCartTC(product)
     }
 
     setEditDescription(value: string): string {
@@ -70,18 +71,27 @@ class OneProduct extends React.Component<PropsType> {
                                 <p className={styles.name}>{this.props.currentProduct.name}</p>
                                 {
                                     this.props.currentProduct.attributes.map((attribut: any) => <div key={attribut.id}>
-                                        <div>{attribut.name}</div>
-                                        <div className={styles.attributes}>{attribut.items.map((item: any) =>
-                                                <div className={styles.items} key={item.id}>
-                                                    {item.displayValue}
-                                                </div>
+                                        <div className={styles.name}>{attribut.name}</div>
+                                        <div className={styles.attributes}>{attribut.items.map((item: any) => {
+                                                return (attribut.name === 'Color'
+                                                        ?
+                                                        <div style={{background:`${item.value}`}} className={styles.itemColor}  key={item.id}/>
+                                                        : <div className={styles.items} key={item.id}>
+                                                            <div className={styles.item}>{item.displayValue}</div>
+                                                        </div>
+                                                )
+                                            }
                                         )}</div>
                                     </div>)
                                 }
+                                <div className={styles.priceText}>price:</div>
+                                <div className={styles.price}>${this.props.currentProduct.prices[0].amount}</div>
                                 <button
-                                    onClick={()=>this.addProductAtCart(this.props.currentProduct)}
-                                    className={styles.addToCartButton}>add to cart</button>
-                                <div className={styles.description}>{this.setEditDescription(this.props.currentProduct.description)}</div>
+                                    onClick={() => this.addProductAtCart(this.props.currentProduct)}
+                                    className={styles.addToCartButton}>add to cart
+                                </button>
+                                <div
+                                    className={styles.description}>{this.setEditDescription(this.props.currentProduct.description)}</div>
                             </div>
                         </div>
                         : <div>

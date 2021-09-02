@@ -6,20 +6,22 @@ const SET_CURRENT_PRODUCTS = 'SET_CURRENT_PRODUCTS'
 const SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT'
 const SET_CURRENT_BIG_IMAGE = 'SET_CURRENT_BIG_IMAGE'
 const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART'
+const SET_COUNT_AND_PRICE = 'SET_COUNT_AND_PRICE'
 
 
 export type productType = {
     prices: any,
     name: string
-    category: any,
-    description: any,
-    gallery: any,
+    category: string,
+    description: string,
+    gallery: string[],
     attributes: any,
-    inStock: any,
-    brand: any,
-    id: any,
+    inStock: boolean,
+    brand: string,
+    id: string,
     count: number,
-    currentCurrency:any
+    currentCurrency: any,
+    currentAttributes: any[]
 }
 
 
@@ -51,9 +53,18 @@ type addProductToCart = {
     type: typeof ADD_PRODUCT_TO_CART,
     payload: productType
 }
+type setCountAndPrice = {
+    type: typeof SET_COUNT_AND_PRICE,
+}
 
 type initStateType = typeof initState
-type actionType = setCurrentProduct | setCurrentProducts | setProductsALL | setCurrentBigImage | addProductToCart
+type actionType =
+    setCurrentProduct
+    | setCurrentProducts
+    | setProductsALL
+    | setCurrentBigImage
+    | addProductToCart
+    | setCountAndPrice
 
 export const ProductListReducer = (state: initStateType = initState, action: actionType): initStateType => {
     switch (action.type) {
@@ -79,8 +90,8 @@ export const ProductListReducer = (state: initStateType = initState, action: act
         case "SET_CURRENT_BIG_IMAGE": {
             return {...state, currentBigImage: action.payload}
         }
-        case "ADD_PRODUCT_TO_CART":{
-            return {...state,cartItems:[...state.cartItems, action.payload] }
+        case "ADD_PRODUCT_TO_CART": {
+            return {...state, cartItems: [...state.cartItems, action.payload]}
         }
         default: {
             return state
@@ -97,7 +108,7 @@ const setCurrentProducts = (categoryNAME: string): setCurrentProducts => ({
 })
 const setCurrentProduct = (productID: string): setCurrentProduct => ({type: SET_CURRENT_PRODUCT, payload: productID})
 const setCurrentImage = (image: string): setCurrentBigImage => ({type: SET_CURRENT_BIG_IMAGE, payload: image})
-const addProductToCart = (product:productType):addProductToCart=>({type:ADD_PRODUCT_TO_CART, payload:product})
+const addProductToCart = (product: productType): addProductToCart => ({type: ADD_PRODUCT_TO_CART, payload: product})
 //TC
 export const getCurrentProducts = (categoryNAME: string) => (dispatch: Dispatch) => {
     dispatch(setCurrentProducts(categoryNAME))
@@ -112,6 +123,6 @@ export const getCurrentProduct = (productID: string) => (dispatch: Dispatch) => 
 export const getCurrentImage = (image: string) => (dispatch: Dispatch) => {
     dispatch(setCurrentImage(image))
 }
-export const addProductToCartTC = (product:productType)=>(dispatch:Dispatch)=>{
+export const addProductToCartTC = (product: productType) => (dispatch: Dispatch) => {
     dispatch(addProductToCart(product))
 }

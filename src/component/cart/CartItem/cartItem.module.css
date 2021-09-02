@@ -1,6 +1,29 @@
 .cartItem{
     border-top: 1px solid #E5E5E5;
     width: 1098px;
-    height: 186px;
-
+    min-height: 186px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.settings_Photo{
+    display: flex;
+    width: 30%;
+    justify-content: space-between;
+}
+.counter{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.change{
+    width: 40px;
+    height: 40px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
 }
