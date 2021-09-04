@@ -2,7 +2,12 @@ import React from 'react';
 import styles from './onProduct.module.css'
 import {AppStateType} from "../../redux/store";
 import {connect} from "react-redux";
-import {addProductToCartTC, getCurrentImage, productType} from "../../redux/reducers/productListReducer";
+import {
+    addProductToCartTC,
+    getCurrentImage,
+    productType,
+    setAttributesTC
+} from "../../redux/reducers/productListReducer";
 import Preloader from "../../common/Preloader";
 //currentProduct
 type PropsType = {
@@ -10,7 +15,8 @@ type PropsType = {
     currentBigImage: string,
     getCurrentImage: (image: string) => void
     addProductToCartTC: (product: productType) => void
-    currentCurrency:string
+    currentCurrency: string,
+    setAttributesTC: (value: any) => void
 }
 
 
@@ -27,6 +33,7 @@ class OneProduct extends React.Component<PropsType> {
             this.props.getCurrentImage(this.props.currentProduct.gallery[0])
         }
     }
+
     getCurrentCurrencySymbol(currency: string): any {
         if (currency === 'USD') return <span>&#65284;</span>;
         if (currency === 'GBP') return <span>&#163;</span>
@@ -84,9 +91,17 @@ class OneProduct extends React.Component<PropsType> {
                                         <div className={styles.attributes}>{attribut.items.map((item: any) => {
                                                 return (attribut.name === 'Color'
                                                         ?
-                                                        <div style={{background:`${item.value}`}} className={styles.itemColor}  key={item.id}/>
+                                                        <div
+                                                            style={{background: `${item.value}`}}
+                                                            className={styles.itemColor}
+                                                            onClick={() =>this.props.setAttributesTC(item)}
+                                                            key={item.id}
+                                                        />
                                                         : <div className={styles.items} key={item.id}>
-                                                            <div className={styles.item}>{item.displayValue}</div>
+                                                            <div
+                                                                onClick={() =>this.props.setAttributesTC(item)}
+                                                                className={styles.item}
+                                                            >{item.displayValue}</div>
                                                         </div>
                                                 )
                                             }
@@ -94,7 +109,8 @@ class OneProduct extends React.Component<PropsType> {
                                     </div>)
                                 }
                                 <div className={styles.priceText}>price:</div>
-                                <div className={styles.price}>{this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.currentProduct.currentCurrency}</div>
+                                <div
+                                    className={styles.price}>{this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.currentProduct.currentCurrency}</div>
                                 <button
                                     onClick={() => this.addProductAtCart(this.props.currentProduct)}
                                     className={styles.addToCartButton}>add to cart
@@ -123,7 +139,8 @@ const MSTP = (state: AppStateType) => {
 }
 const MDTP = {
     getCurrentImage,
-    addProductToCartTC
+    addProductToCartTC,
+    setAttributesTC
 }
 
 export default connect(MSTP, MDTP)(OneProduct);

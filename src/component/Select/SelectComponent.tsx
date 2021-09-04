@@ -2,18 +2,18 @@ import React, {Component} from 'react';
 import styles from './Select.module.css'
 
 type PropsType ={
-    currencies:number[],
-    ChangeCurrentCurrency:(select:boolean, currency:number)=>void
+    currencies:string[],
+    ChangeCurrentCurrency:(select:boolean, currency:string)=>void
 
 }
 class SelectComponent extends Component<PropsType> {
 
-    getCurrentCurrencySymbol(currency: number): any {
-        if (currency === 1) return <>&#65284;</>;
-        if (currency === 2) return <>&#163;</>
-        if (currency === 3) return <>&#8371;</>
-        if (currency === 4) return <>&#165;</>
-        if (currency === 5) return <>&#8381;</>
+    getCurrentCurrencySymbol(currency: string): any {
+        if (currency === 'USD') return <>&#65284;</>;
+        if (currency === 'GBP') return <>&#163;</>
+        if (currency === 'AUD') return <>&#8371;</>
+        if (currency === 'JPY') return <>&#165;</>
+        if (currency === 'RUB') return <>&#8381;</>
         return <span>&#65284;</span>
     }
 
