@@ -1,4 +1,12 @@
 import {Dispatch} from "redux"
+import {Simulate} from "react-dom/test-utils";
+
+
+const SET_CATEGORIES = 'SET_CATEGORIES'
+const SET_CURRENCIES = 'SET_CURRENCIES'
+const SET_CURRENT_CATEGORY = 'SET_CURRENT_CATEGORY'
+const SET_CURRENT_CURRENCY = 'SET_CURRENT_CURRENCY'
+const SET_SELECT = 'SET_SELECT'
 
 let headerInitState = {
     categories: [] as any,
@@ -10,25 +18,27 @@ let headerInitState = {
 type headerInitStateType = typeof headerInitState
 
 type setCategories = {
-    type: 'SET_CATEGORIES',
+    type: typeof SET_CATEGORIES,
     payload: any[]
 }
 
 type setCurrencies = {
-    type: 'SET_CURRENCIES',
+    type: typeof SET_CURRENCIES,
     payload: string[]
 }
 type setCurrentCategory = {
-    type: 'SET_CURRENT_CATEGORY',
+    type: typeof SET_CURRENT_CATEGORY,
     payload: string
 }
-
-
 type setCurrentCurrency = {
-    type: 'SET_CURRENT_CURRENCY',
+    type: typeof SET_CURRENT_CURRENCY,
     payload: string
 }
-type actionType = setCategories | setCurrentCurrency | setCurrencies | setCurrentCategory
+type setSelectEdit = {
+    type: typeof SET_SELECT,
+    payload: boolean
+}
+type actionType = setCategories | setCurrentCurrency | setCurrencies | setCurrentCategory | setSelectEdit
 
 
 export const headerReducer = (state: headerInitStateType = headerInitState, action: actionType): headerInitStateType => {
@@ -40,11 +50,13 @@ export const headerReducer = (state: headerInitStateType = headerInitState, acti
             return {...state, currencies: action.payload, currentCurrency: action.payload[0]}
         }
         case "SET_CURRENT_CURRENCY": {
-
             return {...state, currentCurrency: action.payload}
         }
         case "SET_CURRENT_CATEGORY": {
             return {...state, currentCategory: action.payload}
+        }
+        case "SET_SELECT": {
+            return {...state, select: action.payload}
         }
 
         default: {
@@ -59,6 +71,9 @@ const setCategories = (categories: any[]): setCategories => ({type: "SET_CATEGOR
 const setCurrencies = (currencies: string[]): setCurrencies => ({type: "SET_CURRENCIES", payload: currencies})
 const setCurrentCurrency = (currency: string): setCurrentCurrency => ({type: "SET_CURRENT_CURRENCY", payload: currency})
 const setCurrentCategory = (category: string): setCurrentCategory => ({type: 'SET_CURRENT_CATEGORY', payload: category})
+const setSelectEdit = (select: boolean): setSelectEdit => ({type: SET_SELECT, payload: select})
+
+
 //TC
 export const getCategoriesThunk = (categories: any[]) => (dispatch: Dispatch) => {
     dispatch(setCategories(categories))
@@ -69,6 +84,15 @@ export const getCurrenciesThunk = (currencies: string[]) => (dispatch: Dispatch)
 }
 export const ChangeCurrentCategory = (category: string) => (dispatch: Dispatch) => {
     dispatch(setCurrentCategory(category))
+}
+//изменение состояния селекта  + currentCurrency
+export const ChangeCurrentCurrency = (select: boolean, currency: string) => (dispatch: Dispatch) => {
+    dispatch(setCurrentCurrency(currency));
+    dispatch(setSelectEdit(select));
+}
+//переключалка
+export const changeSelectStatus = (select: boolean) => (dispatch: Dispatch) => {
+    dispatch(setSelectEdit(select));
 }
 
 

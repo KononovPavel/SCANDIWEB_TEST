@@ -7,10 +7,11 @@ const SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT'
 const SET_CURRENT_BIG_IMAGE = 'SET_CURRENT_BIG_IMAGE'
 const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART'
 const SET_COUNT_AND_PRICE = 'SET_COUNT_AND_PRICE'
+const SET_CURRENT_CURRENCY = 'SET_CURRENT_CURRENCY'
 
 
 export type productType = {
-    prices: any,
+    prices: any[],
     name: string
     category: string,
     description: string,
@@ -20,7 +21,7 @@ export type productType = {
     brand: string,
     id: string,
     count: number,
-    currentCurrency: any,
+    currentCurrency: number,
     currentAttributes: any[]
 }
 
@@ -31,6 +32,7 @@ let initState = {
     currentProduct: {} as productType | undefined,
     cartItems: [] as productType[],
     currentBigImage: '' as string,
+
 }
 type setProductsALL = {
     type: typeof SET_PRODUCTS_ALL,
@@ -57,6 +59,11 @@ type setCountAndPrice = {
     type: typeof SET_COUNT_AND_PRICE,
 }
 
+type setCurrentCurrency = {
+    type: typeof SET_CURRENT_CURRENCY,
+    id: string,
+    amount: number
+}
 type initStateType = typeof initState
 type actionType =
     setCurrentProduct
@@ -65,6 +72,7 @@ type actionType =
     | setCurrentBigImage
     | addProductToCart
     | setCountAndPrice
+    | setCurrentCurrency
 
 export const ProductListReducer = (state: initStateType = initState, action: actionType): initStateType => {
     switch (action.type) {
@@ -93,6 +101,16 @@ export const ProductListReducer = (state: initStateType = initState, action: act
         case "ADD_PRODUCT_TO_CART": {
             return {...state, cartItems: [...state.cartItems, action.payload]}
         }
+        case "SET_CURRENT_CURRENCY": {
+            return {
+                ...state,
+                products: state.products.map(product => product.id == action.id ? {
+                    ...product,
+                    currentCurrency: action.amount,
+                    count: 1
+                } : product)
+            }
+        }
         default: {
             return state
         }
@@ -109,6 +127,11 @@ const setCurrentProducts = (categoryNAME: string): setCurrentProducts => ({
 const setCurrentProduct = (productID: string): setCurrentProduct => ({type: SET_CURRENT_PRODUCT, payload: productID})
 const setCurrentImage = (image: string): setCurrentBigImage => ({type: SET_CURRENT_BIG_IMAGE, payload: image})
 const addProductToCart = (product: productType): addProductToCart => ({type: ADD_PRODUCT_TO_CART, payload: product})
+const setCurrentCurrency = (id: string, amount: number): setCurrentCurrency => ({
+    type: SET_CURRENT_CURRENCY,
+   amount:amount,
+    id:id
+})
 //TC
 export const getCurrentProducts = (categoryNAME: string) => (dispatch: Dispatch) => {
     dispatch(setCurrentProducts(categoryNAME))
@@ -125,4 +148,7 @@ export const getCurrentImage = (image: string) => (dispatch: Dispatch) => {
 }
 export const addProductToCartTC = (product: productType) => (dispatch: Dispatch) => {
     dispatch(addProductToCart(product))
+}
+export const setCurrentCurrencyTC = (id: string, amount: number) => (dispatch: Dispatch) => {
+    dispatch(setCurrentCurrency(id, amount))
 }

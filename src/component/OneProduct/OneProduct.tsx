@@ -10,6 +10,7 @@ type PropsType = {
     currentBigImage: string,
     getCurrentImage: (image: string) => void
     addProductToCartTC: (product: productType) => void
+    currentCurrency:string
 }
 
 
@@ -25,6 +26,14 @@ class OneProduct extends React.Component<PropsType> {
         ) {
             this.props.getCurrentImage(this.props.currentProduct.gallery[0])
         }
+    }
+    getCurrentCurrencySymbol(currency: string): any {
+        if (currency === 'USD') return <span>&#65284;</span>;
+        if (currency === 'GBP') return <span>&#163;</span>
+        if (currency === 'AUD') return <span>&#8371;</span>
+        if (currency === 'JPY') return <span>&#165;</span>
+        if (currency === 'RUB') return <span>&#8381;</span>
+        return <span>&#65284;</span>
     }
 
 //Задание на скг
@@ -85,7 +94,7 @@ class OneProduct extends React.Component<PropsType> {
                                     </div>)
                                 }
                                 <div className={styles.priceText}>price:</div>
-                                <div className={styles.price}>${this.props.currentProduct.prices[0].amount}</div>
+                                <div className={styles.price}>{this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.currentProduct.currentCurrency}</div>
                                 <button
                                     onClick={() => this.addProductAtCart(this.props.currentProduct)}
                                     className={styles.addToCartButton}>add to cart
@@ -108,7 +117,8 @@ class OneProduct extends React.Component<PropsType> {
 const MSTP = (state: AppStateType) => {
     return {
         currentProduct: state.productList.currentProduct,
-        currentBigImage: state.productList.currentBigImage
+        currentBigImage: state.productList.currentBigImage,
+        currentCurrency: state.header.currentCurrency
     }
 }
 const MDTP = {

@@ -10,42 +10,65 @@ import {
     getAllProducts,
     getCurrentProduct,
     getCurrentProducts,
-    productType
+    productType,
+    setCurrentCurrencyTC
 } from "../../redux/reducers/productListReducer";
 import ProductItem from "./ProductsItem/ProductItem";
 
 type PropsType = {
     currentCategory: string,
-    products:productType[],
+    products: productType[],
     getCurrentProducts: (categoryNAME: string) => void,
     getAllProducts: (state: productType[]) => void,
-    getCurrentProduct:(productID:string)=>void
+    getCurrentProduct: (productID: string) => void
     currentProducts: productType[],
-    currentProduct:productType
+    currentProduct: productType,
+    currentCurrency: string,
+    setCurrentCurrencyTC: (id: string, amount: number) => void
+
 
 }
 type AllType = PropsType & any
 
 class ProductsList extends React.Component<AllType, any> {
 
-    componentDidMount () {
-        if(this.props.data.categories && this.props.data){
+    componentDidMount() {
+        if (this.props.data.categories && this.props.data) {
             let array = this.props.data.categories.map((el: any) => el.products).flat()
             this.props.getAllProducts(array)
         }
+        setTimeout(()=>{
+            this.setCurrentCurrency(this.props.currentCurrency)
+        },1000)
     }
 
 
-    componentDidUpdate (prevProps:any) {
-        if(this.props.data.categories !== prevProps.data.categories){
+
+    componentDidUpdate(prevProps: any) {
+        if (this.props.data.categories !== prevProps.data.categories) {
             let array = this.props.data.categories.map((el: any) => el.products).flat()
             this.props.getAllProducts(array)
             this.props.getCurrentProducts(this.props.currentCategory)
+            this.setCurrentCurrency(this.props.currentCurrency)
+        }
+    }
+    // shouldComponentUpdate(nextProps: Readonly<AllType>, nextState: Readonly<any>, nextContext: any): boolean {
+    //     return this.props.currentProduct.currentCurrency !== ''
+    // }
+
+    setCurrentCurrency(currency: string) {
+            this.props.products.forEach((product: productType) => {
+                product.prices.forEach((price: any) => {
+                    if (currency === price.currency) {
+                        this.props.setCurrentCurrencyTC(product.id,price.amount)
+                    }
+                })
+            })
         }
 
-    }
 
-    changeCurrentProduct(productID:string){
+
+    changeCurrentProduct(productID: string) {
         this.props.getCurrentProduct(productID)
     }
 
@@ -59,20 +82,21 @@ class ProductsList extends React.Component<AllType, any> {
                     {
                         this.props.currentProducts
                             ? <div className={styles.productWrapper}>
-                                {this.props.currentProducts.map((product:productType)=> <div
-                                    onClick={()=>this.changeCurrentProduct(product.id)}
+                                {this.props.currentProducts.map((product: productType) => <div
+                                    onClick={() => this.changeCurrentProduct(product.id)}
                                     className={styles.card}
                                     key={product.id}
-                                    style={{opacity: !product.inStock? 0.5:1}}
+                                    style={{opacity: !product.inStock ? 0.5 : 1}}
                                 >
-                                  <ProductItem
-                                      imageURL={product.gallery[0]}
-                                      name={product.name}
-                                      price={product.prices[0].amount}
-                                      inStock={product.inStock}
-                                      id={product.id}
-                                      currentCategory={this.props.currentCategory}
-                                  />
+                                    <ProductItem
+                                        imageURL={product.gallery[0]}
+                                        name={product.name}
+                                        price={product.currentCurrency}//вот тут поменять
+                                        inStock={product.inStock}
+                                        id={product.id}
+                                        currentCategory={this.props.currentCategory}
+                                        currentCurrency={this.props.currentCurrency}
+                                    />
                                 </div>)}
 
                             </div>
@@ -90,13 +114,15 @@ const MSTP = (state: AppStateType) => {
         currentCategory: state.header.currentCategory,
         currentProducts: state.productList.currentProducts,
         products: state.productList.products,
-        currentProduct: state.productList.currentProduct
+        currentProduct: state.productList.currentProduct,
+        currentCurrency: state.header.currentCurrency,
     }
 }
 const MDTP = {
     getAllProducts,
     getCurrentProducts,
-    getCurrentProduct
+    getCurrentProduct,
+    setCurrentCurrencyTC
 }
 
 export default compose<ComponentType | any, any>(

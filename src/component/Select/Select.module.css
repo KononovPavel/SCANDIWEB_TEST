@@ -1,0 +1,21 @@
+.select{
+    position: absolute;
+    right: 20px;
+}
+.currencies{
+    width: 115px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: white;
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 160%;
+}
+.currencies:hover{
+    box-shadow: 0 4px 35px rgba(168, 172, 176, 0.4);
+    cursor: pointer;
+}
