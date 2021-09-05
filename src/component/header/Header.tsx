@@ -53,12 +53,12 @@ class Header extends React.Component<AllProps> {
         this.props.getCurrentProducts(category)
     }
 
-    getCurrentCurrencySymbol(currency: string): any {
-        if (currency === 'USD') return <span>&#65284;</span>;
-        if (currency === 'GBP') return <span>&#163;</span>
-        if (currency === 'AUD') return <span>&#8371;</span>
-        if (currency === 'JPY') return <span>&#165;</span>
-        if (currency === 'RUB') return <span>&#8381;</span>
+    getCurrentCurrencySymbol(currency: number): any {
+        if (currency === 0) return <span>&#65284;</span>;
+        if (currency === 1) return <span>&#163;</span>
+        if (currency === 2) return <span>&#8371;</span>
+        if (currency === 3) return <span>&#165;</span>
+        if (currency === 4) return <span>&#8381;</span>
         return <span>&#65284;</span>
     }
 

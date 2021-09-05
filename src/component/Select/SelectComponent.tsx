@@ -3,17 +3,17 @@ import styles from './Select.module.css'
 
 type PropsType ={
     currencies:string[],
-    ChangeCurrentCurrency:(select:boolean, currency:string)=>void
+    ChangeCurrentCurrency:(select:boolean, currency:number)=>void
 
 }
 class SelectComponent extends Component<PropsType> {
 
-    getCurrentCurrencySymbol(currency: string): any {
-        if (currency === 'USD') return <>&#65284;</>;
-        if (currency === 'GBP') return <>&#163;</>
-        if (currency === 'AUD') return <>&#8371;</>
-        if (currency === 'JPY') return <>&#165;</>
-        if (currency === 'RUB') return <>&#8381;</>
+    getCurrentCurrencySymbol(currency: number): any {
+        if (currency === 0) return <>&#65284;</>;
+        if (currency === 1) return <>&#163;</>
+        if (currency === 2) return <>&#8371;</>
+        if (currency === 3) return <>&#165;</>
+        if (currency === 4) return <>&#8381;</>
         return <span>&#65284;</span>
     }
 
@@ -22,12 +22,12 @@ class SelectComponent extends Component<PropsType> {
         return (
             <div className={styles.select}>
                 {
-                    this.props.currencies.map(currency => <div
-                        onClick={()=>this.props.ChangeCurrentCurrency(false, currency)}
+                    this.props.currencies.map((currency, index) => <div
+                        onClick={()=>this.props.ChangeCurrentCurrency(false, index)}
                         className={styles.currencies}
                         key={currency}
                     >
-                        {this.getCurrentCurrencySymbol(currency)}   {currency}
+                        {this.getCurrentCurrencySymbol(index)}   {currency}
                     </div>)
                 }
             </div>

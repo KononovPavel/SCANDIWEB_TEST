@@ -1,5 +1,4 @@
 import {Dispatch} from "redux"
-import {Simulate} from "react-dom/test-utils";
 
 
 const SET_CATEGORIES = 'SET_CATEGORIES'
@@ -11,7 +10,7 @@ const SET_SELECT = 'SET_SELECT'
 let headerInitState = {
     categories: [] as any,
     currencies: [] as any,
-    currentCurrency: '',
+    currentCurrency:0,
     currentCategory: '',
     select: false,
 }
@@ -32,7 +31,7 @@ type setCurrentCategory = {
 }
 type setCurrentCurrency = {
     type: typeof SET_CURRENT_CURRENCY,
-    payload: string
+    payload: number
 }
 type setSelectEdit = {
     type: typeof SET_SELECT,
@@ -47,7 +46,7 @@ export const headerReducer = (state: headerInitStateType = headerInitState, acti
             return {...state, categories: action.payload}
         }
         case "SET_CURRENCIES": {
-            return {...state, currencies: action.payload, currentCurrency: action.payload[0]}
+            return {...state, currencies: action.payload}
         }
         case "SET_CURRENT_CURRENCY": {
             return {...state, currentCurrency: action.payload}
@@ -69,7 +68,7 @@ export const headerReducer = (state: headerInitStateType = headerInitState, acti
 //AC
 const setCategories = (categories: any[]): setCategories => ({type: "SET_CATEGORIES", payload: categories})
 const setCurrencies = (currencies: string[]): setCurrencies => ({type: "SET_CURRENCIES", payload: currencies})
-const setCurrentCurrency = (currency: string): setCurrentCurrency => ({type: "SET_CURRENT_CURRENCY", payload: currency})
+const setCurrentCurrency = (currency: number): setCurrentCurrency => ({type: "SET_CURRENT_CURRENCY", payload: currency})
 const setCurrentCategory = (category: string): setCurrentCategory => ({type: 'SET_CURRENT_CATEGORY', payload: category})
 const setSelectEdit = (select: boolean): setSelectEdit => ({type: SET_SELECT, payload: select})
 
@@ -86,7 +85,7 @@ export const ChangeCurrentCategory = (category: string) => (dispatch: Dispatch) 
     dispatch(setCurrentCategory(category))
 }
 //изменение состояния селекта  + currentCurrency
-export const ChangeCurrentCurrency = (select: boolean, currency: string) => (dispatch: Dispatch) => {
+export const ChangeCurrentCurrency = (select: boolean, currency: number) => (dispatch: Dispatch) => {
     dispatch(setCurrentCurrency(currency));
     dispatch(setSelectEdit(select));
 }

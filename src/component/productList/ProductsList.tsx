@@ -23,7 +23,7 @@ type PropsType = {
     getCurrentProduct: (productID: string) => void
     currentProducts: productType[],
     currentProduct: productType,
-    currentCurrency: string,
+    currentCurrency: number,
     setCurrentCurrencyTC: (id: string, amount: number) => void
 
 
@@ -36,36 +36,19 @@ class ProductsList extends React.Component<AllType, any> {
         if (this.props.data.categories && this.props.data) {
             let array = this.props.data.categories.map((el: any) => el.products).flat()
             this.props.getAllProducts(array)
+
         }
-        setTimeout(()=>{
-            this.setCurrentCurrency(this.props.currentCurrency)
-        },1000)
+
     }
-
-
 
     componentDidUpdate(prevProps: any) {
         if (this.props.data.categories !== prevProps.data.categories) {
             let array = this.props.data.categories.map((el: any) => el.products).flat()
             this.props.getAllProducts(array)
             this.props.getCurrentProducts(this.props.currentCategory)
-            this.setCurrentCurrency(this.props.currentCurrency)
+
         }
     }
-    // shouldComponentUpdate(nextProps: Readonly<AllType>, nextState: Readonly<any>, nextContext: any): boolean {
-    //     return this.props.currentProduct.currentCurrency !== ''
-    // }
-
-    setCurrentCurrency(currency: string) {
-            this.props.products.forEach((product: productType) => {
-                product.prices.forEach((price: any) => {
-                    if (currency === price.currency) {
-                        this.props.setCurrentCurrencyTC(product.id,price.amount)
-                    }
-                })
-            })
-        }
-
 
 
     changeCurrentProduct(productID: string) {
@@ -73,7 +56,6 @@ class ProductsList extends React.Component<AllType, any> {
     }
 
 
-//currentProducts.map
     render() {
         return (
             <div className={`${styles.productListContainer} container`}>
@@ -91,7 +73,7 @@ class ProductsList extends React.Component<AllType, any> {
                                     <ProductItem
                                         imageURL={product.gallery[0]}
                                         name={product.name}
-                                        price={product.currentCurrency}//вот тут поменять
+                                        price={product.prices[this.props.currentCurrency].amount}
                                         inStock={product.inStock}
                                         id={product.id}
                                         currentCategory={this.props.currentCategory}

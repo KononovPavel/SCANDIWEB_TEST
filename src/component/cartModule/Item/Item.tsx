@@ -3,7 +3,8 @@ import styles from './Item.module.css'
 import {productType} from "../../../redux/reducers/productListReducer";
 
 type PropsType = {
-    item: productType
+    item: productType,
+    currentCurrency:number
 }
 
 class Item extends Component<PropsType> {
@@ -14,7 +15,7 @@ class Item extends Component<PropsType> {
                     <div>
                         <span>{this.props.item.brand}</span>
                         <span>{this.props.item.name}</span>
-                        <p>{this.props.item.prices[0].amount}</p>
+                        <p>{this.props.item.prices[this.props.currentCurrency].amount}</p>
                         <div>
                             {this.props.item.attributes.map((items: any) => <div>
                                 <span>{items.name}</span>

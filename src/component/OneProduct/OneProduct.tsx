@@ -15,16 +15,13 @@ type PropsType = {
     currentBigImage: string,
     getCurrentImage: (image: string) => void
     addProductToCartTC: (product: productType) => void
-    currentCurrency: string,
+    currentCurrency: number,
     setAttributesTC: (value: any) => void
 }
 
 
 class OneProduct extends React.Component<PropsType> {
 
-    constructor(props: any) {
-        super(props);
-    }
 
     componentDidMount() {
         if (
@@ -34,12 +31,12 @@ class OneProduct extends React.Component<PropsType> {
         }
     }
 
-    getCurrentCurrencySymbol(currency: string): any {
-        if (currency === 'USD') return <span>&#65284;</span>;
-        if (currency === 'GBP') return <span>&#163;</span>
-        if (currency === 'AUD') return <span>&#8371;</span>
-        if (currency === 'JPY') return <span>&#165;</span>
-        if (currency === 'RUB') return <span>&#8381;</span>
+    getCurrentCurrencySymbol(currency: number): any {
+        if (currency === 0) return <span>&#65284;</span>;
+        if (currency === 1) return <span>&#163;</span>
+        if (currency === 2) return <span>&#8371;</span>
+        if (currency === 3) return <span>&#165;</span>
+        if (currency === 4) return <span>&#8381;</span>
         return <span>&#65284;</span>
     }
 
@@ -93,13 +90,13 @@ class OneProduct extends React.Component<PropsType> {
                                                         ?
                                                         <div
                                                             style={{background: `${item.value}`}}
-                                                            className={styles.itemColor}
-                                                            onClick={() =>this.props.setAttributesTC(item)}
+                                                            className={ styles.itemColor}
+                                                            onClick={() =>this.props.setAttributesTC(item)}//????
                                                             key={item.id}
                                                         />
                                                         : <div className={styles.items} key={item.id}>
                                                             <div
-                                                                onClick={() =>this.props.setAttributesTC(item)}
+                                                                onClick={() =>this.props.setAttributesTC(item)}//???
                                                                 className={styles.item}
                                                             >{item.displayValue}</div>
                                                         </div>
@@ -110,7 +107,7 @@ class OneProduct extends React.Component<PropsType> {
                                 }
                                 <div className={styles.priceText}>price:</div>
                                 <div
-                                    className={styles.price}>{this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.currentProduct.currentCurrency}</div>
+                                    className={styles.price}>{this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.currentProduct.prices[this.props.currentCurrency].amount}</div>
                                 <button
                                     onClick={() => this.addProductAtCart(this.props.currentProduct)}
                                     className={styles.addToCartButton}>add to cart
