@@ -3,13 +3,21 @@ import compose from 'recompose/compose';
 import styles from './cartModule.module.css'
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/store";
-import {productType} from "../../redux/reducers/productListReducer";
+import {
+    productType,
+    SetDecrementCount,
+    SetDeletedAttribute,
+    SetIncrementCount
+} from "../../redux/reducers/productListReducer";
 import Item from "./Item/Item";
 
 
 type PropsType = {
     cartItems: productType[],
-    currentCurrency:number
+    currentCurrency: number,
+    SetDeletedAttribute: (id: string) => void,
+    SetIncrementCount: (id: string) => void,
+    SetDecrementCount: (id: string) => void
 }
 
 class CartModule extends React.Component<PropsType & any> {
@@ -29,20 +37,34 @@ class CartModule extends React.Component<PropsType & any> {
             <React.Fragment>
                 {
                     this.props.cartItems && this.props.cartItems.length
-                        ? <div style={{width:'100%'}}>
+                        ? <div style={{width: '100%'}}>
                             <h3 className={styles.count}><b>My Bag,</b> {this.props.cartItems.length} items</h3>
                             <>
-                            {
-                                this.props.cartItems.map((item:productType)=><Item currentCurrency={this.props.currentCurrency} key={item.id} item={item}/>)
-                            }</>
-                            <span className={styles.total}>Total {this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.cartItems.reduce((acc:number,el:any)=>acc + el.prices[this.props.currentCurrency].amount * el.count,0)} </span>
-                        <div className={styles.buttons}>
-                            <button className={styles.buttonView}>view bag</button>
-                            <button className={styles.buttonCheckOut}>check out</button>
-                        </div>
+                                {
+                                    this.props.cartItems.map((item: productType) => <Item
+                                        currentCurrency={this.props.currentCurrency}
+                                        key={item.id}
+                                        item={item}
+                                        SetDecrementCount={this.props.SetDecrementCount}
+                                        SetDeletedAttribute={this.props.SetDeletedAttribute}
+                                        SetIncrementCount={this.props.SetIncrementCount}
+                                    />)
+                                }</>
+                            <span
+                                className={styles.total}>Total {this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.cartItems.reduce((acc: number, el: any) => acc + el.prices[this.props.currentCurrency].amount * el.count, 0)} </span>
+                            <div className={styles.buttons}>
+                                <button className={styles.buttonView}>view bag</button>
+                                <button className={styles.buttonCheckOut}>check out</button>
+                            </div>
 
                         </div>
-                        : <div className={styles.emptyBag} style={{width:'100%', height:'300px', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                        : <div className={styles.emptyBag} style={{
+                            width: '100%',
+                            height: '300px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
                             My bag is empty
                         </div>
                 }
@@ -58,5 +80,9 @@ const MSTP = (state: AppStateType) => {
         currentCurrency: state.header.currentCurrency
     }
 }
-
-export default compose<ComponentType, any>(connect(MSTP))(CartModule);
+const MDTP = {
+    SetDeletedAttribute,
+    SetIncrementCount,
+    SetDecrementCount
+}
+export default compose<ComponentType, any>(connect(MSTP, MDTP))(CartModule);

@@ -4,11 +4,22 @@ import {productType} from "../../../redux/reducers/productListReducer";
 
 type PropsType = {
     item: productType,
-    currentCurrency: number
+    currentCurrency: number,
+    SetDeletedAttribute: (id: string) => void,
+    SetIncrementCount: (id: string) => void,
+    SetDecrementCount: (id: string) => void
 }
+type StateType = {
+    count:number
+}
+class Item extends Component<PropsType,StateType> {
 
-class Item extends Component<PropsType> {
-
+    constructor(props:PropsType) {
+        super(props);
+        this.state = {
+            count: this.props.item.count
+        } as StateType
+    }
     getCurrentCurrencySymbol(currency: number): any {
         if (currency === 0) return <span>&#65284;</span>;
         if (currency === 1) return <span>&#163;</span>
@@ -21,6 +32,8 @@ class Item extends Component<PropsType> {
     getCurrentAmount(count: number, amount: number): number {
         if (count === 0) return 0
         return count * amount
+    }shouldComponentUpdate(nextProps: Readonly<PropsType>, nextState: Readonly<{}>, nextContext: any): boolean {
+        return this.props.item.count == nextProps.item.count
     }
 
     render() {
@@ -44,13 +57,19 @@ class Item extends Component<PropsType> {
                     </div>
                     <div className={styles.settings_Photo}>
                         <div className={styles.counter}>
-                            <div className={styles.change}>
+                            <div
+                                className={styles.change}
+                                onClick={()=>this.props.SetIncrementCount(this.props.item.id)}
+                            >
                                 +
                             </div>
                             <div className={styles.count}>
-                                1
+                                {this.props.item.count}
                             </div>
-                            <div className={styles.change}>
+                            <div
+                                onClick={()=> this.props.SetDecrementCount(this.props.item.id)}
+                                className={styles.change}
+                            >
                                 -
                             </div>
                         </div>
