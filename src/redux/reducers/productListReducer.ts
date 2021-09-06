@@ -6,9 +6,11 @@ const SET_CURRENT_PRODUCTS = 'SET_CURRENT_PRODUCTS'
 const SET_CURRENT_PRODUCT = 'SET_CURRENT_PRODUCT'
 const SET_CURRENT_BIG_IMAGE = 'SET_CURRENT_BIG_IMAGE'
 const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART'
-const SET_COUNT_AND_PRICE = 'SET_COUNT_AND_PRICE'
 const SET_CURRENT_CURRENCY = 'SET_CURRENT_CURRENCY'
 const SET_CURRENT_ATTRIBUTES = 'SET_CURRENT_ATTRIBUTES'
+const DELETE_PRODUCT_FROM_CART = 'DELETE_PRODUCT_FROM_CART'
+const INCREMENT_COUNT = 'INCREMENT_COUNT'
+const DECREMENT_COUNT = 'DECREMENT_COUNT'
 
 
 export type productType = {
@@ -17,7 +19,7 @@ export type productType = {
     category: string,
     description: string,
     gallery: string[],
-    attributes: any,
+    attributes: any[],
     inStock: boolean,
     brand: string,
     id: string,
@@ -55,9 +57,6 @@ type addProductToCart = {
     type: typeof ADD_PRODUCT_TO_CART,
     payload: productType
 }
-type setCountAndPrice = {
-    type: typeof SET_COUNT_AND_PRICE,
-}
 
 type setCurrentCurrency = {
     type: typeof SET_CURRENT_CURRENCY,
@@ -70,6 +69,27 @@ type setCurrentAttributes = {
     payload: any
 }
 
+type deleteItemFromCart = {
+    type: typeof DELETE_PRODUCT_FROM_CART,
+    payload: {
+        id: string
+    }
+}
+
+type IncrementCount = {
+    type: typeof INCREMENT_COUNT,
+    payload: {
+        id: string
+    }
+}
+
+type DecrementCount = {
+    type: typeof DECREMENT_COUNT,
+    payload: {
+        id: string
+    }
+}
+
 type initStateType = typeof initState
 type actionType =
     setCurrentProduct
@@ -77,9 +97,11 @@ type actionType =
     | setProductsALL
     | setCurrentBigImage
     | addProductToCart
-    | setCountAndPrice
     | setCurrentCurrency
     | setCurrentAttributes
+    | deleteItemFromCart
+    | IncrementCount
+    | DecrementCount
 
 export const ProductListReducer = (state: initStateType = initState, action: actionType): initStateType => {
     switch (action.type) {
@@ -113,7 +135,7 @@ export const ProductListReducer = (state: initStateType = initState, action: act
                 ...state,
                 products: state.products.map(product => product.id == action.id ? {
                     ...product,
-                    currentAmount : action.amount,
+                    currentAmount: action.amount,
                     count: 1
                 } : product)
             }
@@ -122,12 +144,31 @@ export const ProductListReducer = (state: initStateType = initState, action: act
             debugger
             return {
                 ...state,
-                    currentProduct: {
-                        ...state.currentProduct,
-                        currentAttributes: action.payload//???
-                    }   as productType
-                }
+                currentProduct: {
+                    ...state.currentProduct,
+                    currentAttributes: [...state.currentProduct.currentAttributes ? state.currentProduct.currentAttributes : [], action.payload]
+                } as any
             }
+        }
+        case "INCREMENT_COUNT": {
+            let copyState = {...state}
+            let currentProduct = copyState.cartItems.find(product => product.id === action.payload.id)
+            if (currentProduct) {
+                currentProduct.count += 1
+            }
+            return copyState
+        }
+        case "DECREMENT_COUNT": {
+            let copyState = {...state}
+            let currentProduct = copyState.cartItems.find(product => product.id === action.payload.id)
+            if (currentProduct) {
+                currentProduct.count -= 1
+            }
+            return copyState
+        }
+        case "DELETE_PRODUCT_FROM_CART": {
+            return {...state, cartItems: state.cartItems.filter(item => item.id !== action.payload.id)}
+        }
 
         default: {
             return state
@@ -151,6 +192,11 @@ const setCurrentCurrency = (id: string, amount: number): setCurrentCurrency => (
     amount: amount,
     id: id
 })
+
+const DeleteProductsFromCart = (id:string):deleteItemFromCart=>({type:DELETE_PRODUCT_FROM_CART,payload:{id:id}})
+const setIncrementCount = (id:string):IncrementCount=>({type:INCREMENT_COUNT,payload:{id}})
+const setDecrementCount = (id:string):DecrementCount=>({type:DECREMENT_COUNT,payload:{id}})
+
 //TC
 export const getCurrentProducts = (categoryNAME: string) => (dispatch: Dispatch) => {
     dispatch(setCurrentProducts(categoryNAME))
@@ -173,4 +219,14 @@ export const setCurrentCurrencyTC = (id: string, amount: number) => (dispatch: D
 }
 export const setAttributesTC = (attribute: any) => (dispatch: Dispatch) => {
     dispatch(setAttributes(attribute))
+}
+
+export const SetDeletedAttribute = (id:string) => (dispatch:Dispatch) => {
+    dispatch(DeleteProductsFromCart(id))
+}
+export const SetIncrementCount = (id:string)=>(dispatch:Dispatch)=>{
+    dispatch(setIncrementCount(id))
+}
+export const SetDecrementCount = (id:string)=>(dispatch:Dispatch)=>{
+    dispatch(setDecrementCount(id))
 }

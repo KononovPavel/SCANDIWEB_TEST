@@ -32,3 +32,35 @@
     font-size: 16px;
     line-height: 160%;
 }
+.displayValue{
+    width: 24px;
+    border: 1px solid;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 160%;
+}
+.text{
+    margin-right: 20px;
+    max-width: 136px;
+    font-family: 'Raleway',sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 160%;
+}
+.price{
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 160%;
+    margin-top: 5px;
+    margin-bottom: 27px;
+}

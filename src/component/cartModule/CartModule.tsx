@@ -35,7 +35,7 @@ class CartModule extends React.Component<PropsType & any> {
                             {
                                 this.props.cartItems.map((item:productType)=><Item currentCurrency={this.props.currentCurrency} key={item.id} item={item}/>)
                             }</>
-                            <span className={styles.total}>Total {this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.cartItems.reduce((acc:number,el:any)=>acc + el.prices[this.props.currentCurrency].amount,0)} </span>
+                            <span className={styles.total}>Total {this.getCurrentCurrencySymbol(this.props.currentCurrency)}{this.props.cartItems.reduce((acc:number,el:any)=>acc + el.prices[this.props.currentCurrency].amount * el.count,0)} </span>
                         <div className={styles.buttons}>
                             <button className={styles.buttonView}>view bag</button>
                             <button className={styles.buttonCheckOut}>check out</button>
